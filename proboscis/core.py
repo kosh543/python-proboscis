@@ -398,6 +398,10 @@ class TestRegistry(object):
                 elif entry.info.after_class:
                     after_class_methods.append(entry)
         for before_entry in before_class_methods:
+            be_info = before_entry.info
+            if any(g_str.startswith('prepare_') for g_str in be_info.groups):
+                # Add 'prepare_NAME' dependencies only via 'depends_on_groups'.
+                continue
             for test_entry in test_entries:
                 if not test_entry.info.before_class:
                     test_entry.info.depends_on.add(before_entry.home)
