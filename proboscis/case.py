@@ -158,6 +158,9 @@ class TestPlan(object):
                 for test_home in case.entry.info.depends_on:
                     if not test_home in test_homes:
                         test_homes.append(test_home)
+            elif case.entry.info.after_class:
+                # Always add 'after_class' methods.
+                filtered_list.append(case)
         self.tests = list(reversed(filtered_list))
 
 
