@@ -132,6 +132,8 @@ class TestGraph:
                 d_node = i_node.pop_dependent()
                 if d_node.has_no_dependencies:
                     independent_nodes.appendleft(d_node)
+        # Keep 'before_class' methods on top.
+        ordered_nodes = sorted(ordered_nodes, key=lambda x: x.case.entry.info.before_class, reverse=True)
         # Search for a cycle
         for node in self.nodes:
             if not node.has_no_dependencies:
