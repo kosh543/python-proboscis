@@ -74,7 +74,8 @@ class TestEntryInfo:
                  runs_after_groups=None,
                  runs_after=None,
                  run_before_class=False,
-                 run_after_class=False):
+                 run_after_class=False,
+                 xl_test=None):
         groups = groups or []
         depends_on_list = depends_on or []
         depends_on_classes = depends_on_classes or []
@@ -98,6 +99,7 @@ class TestEntryInfo:
         self.after_class = run_after_class
         self.runs_after = set(transform_depends_on_target(target)
                               for target in runs_after)
+        self.xl_test = xl_test
 
         if run_before_class and run_after_class:
             raise RuntimeError("It is illegal to set 'before_class' and "
@@ -399,11 +401,10 @@ class TestRegistry(object):
                     after_class_methods.append(entry)
         for before_entry in before_class_methods:
             be_info = before_entry.info
-            if any(g_str.startswith('prepare_') for g_str in be_info.groups):
-                # Add 'prepare_NAME' dependencies only via 'depends_on_groups'.
-                continue
+            # If it is 'prepare_NAME' function add into depencies only for 'NAME' test.
+            xl_test = be_info.xl_test
             for test_entry in test_entries:
-                if not test_entry.info.before_class:
+                if not test_entry.info.before_class and (xl_test is None or xl_test in test_entry.info.groups):
                     test_entry.info.depends_on.add(before_entry.home)
         for after_entry in after_class_methods:
             for test_entry in test_entries:

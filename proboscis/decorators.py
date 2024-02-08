@@ -164,3 +164,28 @@ def xl_setup(home=None, **kwargs):
         kwargs.update({'groups':[setup]})
     return before_class(home=home, **kwargs)
 
+
+def xl_prepare(home=None, **kwargs):
+    setup = 'xl_setup'
+    if 'depends_on_groups' in kwargs.keys():
+        groups = kwargs.get('depends_on_groups')
+        if not setup in groups:
+            groups.append(setup)
+    else:
+        kwargs.update({'depends_on_groups':[setup]})
+    def xl_prepare_method(func):
+        func_name_parts = str(func.__name__).split('_')
+        if ( len(func_name_parts) < 3 or
+             func_name_parts[0] != 'prepare' or
+             not func_name_parts[1].isnumeric() ):
+            raise ValueError(f"Wrong 'xl_prepare' function naming ({func.__name__}).")
+        xl_test = '_'.join(func_name_parts[2:])
+        kwargs.update({'xl_test':xl_test})
+        return before_class(home=func, **kwargs)
+    if home:
+        return xl_prepare_method(home)
+    else:
+        def cb_method(home_2):
+            return xl_prepare_method(home_2)
+        return cb_method
+
