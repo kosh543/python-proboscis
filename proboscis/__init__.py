@@ -34,4 +34,5 @@ from proboscis.decorators import before_class
 from proboscis.decorators import factory
 from proboscis.decorators import register
 from proboscis.decorators import test
+from proboscis.decorators import xl_setup
 from proboscis.case import TestResult

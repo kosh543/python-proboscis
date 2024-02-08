@@ -153,3 +153,14 @@ def factory(func=None, **kwargs):
     else:
         raise ValueError("Arguments not supported on factories.")
 
+
+def xl_setup(home=None, **kwargs):
+    setup = 'xl_setup'
+    if 'groups' in kwargs.keys():
+        groups = kwargs.get('groups')
+        if not setup in groups:
+            groups.append(setup)
+    else:
+        kwargs.update({'groups':[setup]})
+    return before_class(home=home, **kwargs)
+
