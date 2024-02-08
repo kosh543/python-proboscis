@@ -134,6 +134,8 @@ class TestGraph:
                     independent_nodes.appendleft(d_node)
         # Keep 'before_class' methods on top.
         ordered_nodes = sorted(ordered_nodes, key=lambda x: x.case.entry.info.before_class, reverse=True)
+        # And 'after_class' methods on bottom.
+        ordered_nodes = sorted(ordered_nodes, key=lambda x: x.case.entry.info.after_class)
         # Search for a cycle
         for node in self.nodes:
             if not node.has_no_dependencies:
