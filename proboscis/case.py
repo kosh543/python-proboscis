@@ -161,6 +161,9 @@ class TestPlan(object):
             elif case.entry.info.after_class:
                 # Always add 'after_class' methods.
                 filtered_list.append(case)
+        if all(case.entry.info.after_class for case in filtered_list):
+            # Don't run only 'after_class' methods
+            filtered_list.clear()
         self.tests = list(reversed(filtered_list))
 
 
