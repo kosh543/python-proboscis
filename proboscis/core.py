@@ -401,10 +401,10 @@ class TestRegistry(object):
                     after_class_methods.append(entry)
         for before_entry in before_class_methods:
             be_info = before_entry.info
-            # If it is 'prepare_NAME' function add into depencies only for 'NAME' test.
+            # If it is 'xl_prepare' function, add it into depencies only for the same 'xl_test' function.
             xl_test = be_info.xl_test
             for test_entry in test_entries:
-                if not test_entry.info.before_class and (xl_test is None or xl_test in test_entry.info.groups):
+                if not test_entry.info.before_class and (xl_test is None or xl_test == test_entry.info.xl_test):
                     test_entry.info.depends_on.add(before_entry.home)
         for after_entry in after_class_methods:
             for test_entry in test_entries:
