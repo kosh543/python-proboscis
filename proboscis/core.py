@@ -406,10 +406,6 @@ class TestRegistry(object):
             for test_entry in test_entries:
                 if not test_entry.info.before_class and (xl_test is None or xl_test == test_entry.info.xl_test):
                     test_entry.info.depends_on.add(before_entry.home)
-        for after_entry in after_class_methods:
-            for test_entry in test_entries:
-                if not test_entry.info.after_class:
-                    after_entry.info.depends_on.add(test_entry.home)
         entry = TestMethodClassEntry(cls, info, test_entries)
         self._register_entry(entry)
         return entry.home
