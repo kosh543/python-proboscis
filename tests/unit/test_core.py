@@ -1,4 +1,3 @@
-import imp
 import sys
 import time
 import unittest

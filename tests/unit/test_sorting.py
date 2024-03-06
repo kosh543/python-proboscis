@@ -15,7 +15,6 @@
 
 """Tests the internal logic of the proboscis module."""
 
-import imp
 import sys
 import time
 import unittest

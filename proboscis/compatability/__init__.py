@@ -26,8 +26,12 @@ else:
 
 
 if sys.version_info >= (3, 0):
-    import imp
-    reload = imp.reload
+    if sys.version_info >= (3, 4):
+        import importlib
+        reload = importlib.reload
+    else:
+        import imp
+        reload = imp.reload
     from proboscis.compatability.raise_3_x import raise_with_traceback
 
     def get_class_methods(cls):
