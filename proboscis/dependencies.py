@@ -59,7 +59,7 @@ except ImportError:
         def createTests(self):
             self.test = self.suite_arg
 
-    class TextTestResult(unittest._TextTestResult):
+    class TextTestResult(unittest.TextTestResult):
         def __init__(self, stream, descriptions, verbosity, config=None,
                      errorClasses=None):
             super(TextTestResult, self).__init__(stream, descriptions,
